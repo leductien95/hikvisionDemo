@@ -1,6 +1,7 @@
 package com.jlin.hikvisondemo.widget;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.util.Log;
@@ -41,7 +42,7 @@ public class PlaySurfaceView extends SurfaceView implements Callback {
     public int m_lUserID = -1;
     public int m_iChan = 0;
 
-    public PlaySurfaceView(MainActivity mainActivity) {
+    public PlaySurfaceView(Activity mainActivity) {
         super(mainActivity);
 
         m_hHolder = this.getHolder();
@@ -77,7 +78,7 @@ public class PlaySurfaceView extends SurfaceView implements Callback {
     }
 
     public void setParam(int nScreenSize) {
-        m_iWidth = nScreenSize / 2;
+        m_iWidth = nScreenSize;
         m_iHeight = (m_iWidth * 3) / 4;
     }
 

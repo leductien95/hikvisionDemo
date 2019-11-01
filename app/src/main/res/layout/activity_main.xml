@@ -8,8 +8,10 @@
 
     <SurfaceView
         android:id="@+id/sur_player"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#0000ff00" />
+        android:layout_width="400dp"
+        android:layout_height="300dp"
+        android:background="#0000ff00"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

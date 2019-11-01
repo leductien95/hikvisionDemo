@@ -94,21 +94,20 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
             }
         }, 2000);
 
-        /*
-         * 开启人脸侦测
-         */
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                JNATest.TEST_Config(loginId, new JNATest.DataCallBack() {
-                    @Override
-                    public void callback(int score) {
-                        System.out.println("MainActivity：" + "callback" + "==== " + score);
-                    }
-                });
-            }
-        }, 3000);
-
+//        /*
+//         * 开启人脸侦测
+//         */
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                JNATest.TEST_Config(loginId, new JNATest.DataCallBack() {
+//                    @Override
+//                    public void callback(int score) {
+//                        System.out.println("MainActivity：" + "callback" + "==== " + score);
+//                    }
+//                });
+//            }
+//        }, 3000);
     }
 
     private boolean initSdk() {
@@ -135,12 +134,15 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
             return -1;
         }
 
+        System.out.println("MainActivity：" + "loginNormalDevice0000" + "==== " + netDvrDeviceInfoV30.byIPChanNum);
         if (netDvrDeviceInfoV30.byChanNum > 0) {
             startChan = netDvrDeviceInfoV30.byStartChan;
             chanNum = netDvrDeviceInfoV30.byChanNum;
+            System.out.println("MainActivity：" + "loginNormalDevice" + "1111 ==== " + startChan + "==== 1111 ==== " + chanNum);
         } else if (netDvrDeviceInfoV30.byIPChanNum > 0) {
             startChan = netDvrDeviceInfoV30.byStartDChan;
             chanNum = netDvrDeviceInfoV30.byIPChanNum + netDvrDeviceInfoV30.byHighDChanNum * 256;
+            System.out.println("MainActivity：" + "loginNormalDevice" + "2222 ==== " + startChan + "==== 2222 ==== " + chanNum);
         }
 
         if (chanNum > 1) {
@@ -153,22 +155,18 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
     }
 
     private void ChangeSingleSurFace(boolean bSingle) {
-        DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
-
         for (int i = 0; i < 4; i++) {
             if (playView[i] == null) {
                 playView[i] = new PlaySurfaceView(this);
-                playView[i].setParam(metric.widthPixels);
+                playView[i].setParam(surfaceView.getMeasuredWidth());
                 FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                         FrameLayout.LayoutParams.WRAP_CONTENT,
                         FrameLayout.LayoutParams.WRAP_CONTENT);
                 params.bottomMargin = playView[i].getM_iHeight() - (i / 2) * playView[i].getM_iHeight();
                 params.leftMargin = (i % 2) * playView[i].getM_iWidth();
-                params.gravity = Gravity.BOTTOM | Gravity.LEFT;
+                params.gravity = Gravity.BOTTOM | Gravity.START;
                 addContentView(playView[i], params);
                 playView[i].setVisibility(View.INVISIBLE);
-
             }
         }
 
@@ -176,14 +174,11 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
             for (int i = 0; i < 4; ++i) {
                 playView[i].setVisibility(View.INVISIBLE);
             }
-            playView[0].setParam(metric.widthPixels * 2);
+            playView[0].setParam(surfaceView.getMeasuredWidth());
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                     FrameLayout.LayoutParams.WRAP_CONTENT,
                     FrameLayout.LayoutParams.WRAP_CONTENT);
-            params.bottomMargin = playView[3].getM_iHeight() - (3 / 2) * playView[3].getM_iHeight();
-            params.leftMargin = 0;
-            // params.
-            params.gravity = Gravity.BOTTOM | Gravity.LEFT;
+            params.gravity = Gravity.TOP | Gravity.START;
             playView[0].setLayoutParams(params);
             playView[0].setVisibility(View.VISIBLE);
         } else {
@@ -191,13 +186,13 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
                 playView[i].setVisibility(View.VISIBLE);
             }
 
-            playView[0].setParam(metric.widthPixels);
+            playView[0].setParam(surfaceView.getMeasuredWidth());
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                     FrameLayout.LayoutParams.WRAP_CONTENT,
                     FrameLayout.LayoutParams.WRAP_CONTENT);
-            params.bottomMargin = playView[0].getM_iHeight() - (0 / 2) * playView[0].getM_iHeight();
-            params.leftMargin = (0 % 2) * playView[0].getM_iWidth();
-            params.gravity = Gravity.BOTTOM | Gravity.LEFT;
+            params.bottomMargin = playView[0].getM_iHeight();
+            params.leftMargin = 0;
+            params.gravity = Gravity.BOTTOM | Gravity.START;
             playView[0].setLayoutParams(params);
         }
     }
@@ -223,13 +218,11 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback {
         }
 
         Log.i(TAG, "m_iStartChan:" + startChan);
-
         NET_DVR_PREVIEWINFO previewInfo = new NET_DVR_PREVIEWINFO();
         previewInfo.lChannel = startChan;
         previewInfo.dwStreamType = 0; // main stream
         previewInfo.bBlocked = 1;
         previewInfo.hHwnd = playView[0].m_hHolder;
-
         playID = HCNetSDK.getInstance().NET_DVR_RealPlay_V40(loginId, previewInfo, null);
         System.out.println("MainActivity：" + "startSinglePreview" + "==== " + playID);
         if (playID < 0) {

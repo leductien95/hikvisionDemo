@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context=".Main2Activity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_capture_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#eeeeee"
+            android:padding="10dp"
+            android:text="capture_1"
+            android:textColor="#333333"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/tv_capture_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#eeeeee"
+            android:padding="10dp"
+            android:layout_marginStart="10dp"
+            android:text="capture_2"
+            android:textColor="#333333"
+            android:textSize="30sp" />
+    </LinearLayout>
+
+    <SurfaceView
+        android:id="@+id/sur_player1"
+        android:layout_width="400dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="20dp"
+        android:background="#0000ff00" />
+
+
+    <SurfaceView
+        android:id="@+id/sur_player2"
+        android:layout_width="400dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="20dp"
+        android:background="#0000ff00" />
+
+</LinearLayout>
